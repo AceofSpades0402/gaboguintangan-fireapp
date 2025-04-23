@@ -33,3 +33,29 @@ def map_station(request):
     }
 
     return render(request, 'map_station.html', context)
+
+
+
+def map_incidents(request):
+    fireIncidents = Incident.objects.select_related('location').values(
+        'description',
+        'location__latitude',
+        'location__longitude',
+        'date_time'
+    )
+
+    fireIncidents_list = []
+    for incident in fireIncidents:
+        fireIncidents_list.append({
+            'description': incident['description'],
+            'latitude': float(incident['location__latitude']),
+            'longitude': float(incident['location__longitude']),
+            'date': incident['date_time'].strftime('%Y-%m-%d') if incident['date_time'] else '',
+        })
+
+    context = {
+        'fireIncidents': fireIncidents_list,
+    }
+
+    return render(request, 'map_incidents.html', context)
+

@@ -9,5 +9,5 @@ urlpatterns = [
     path('stations', views.map_station, name='map-station'),
     path('', HomePageView.as_view(), name='home'),
     path('dashboard_chart', ChartView.as_view(), name='dashboard-chart'),
-
+    path('map/incidents/', views.map_incidents, name='map-incidents'),
 ]
