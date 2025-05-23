@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Incident Types by Country</h1>
+
+<div style="width: 800px; margin: auto; margin-top: 50px;">
+    <canvas id="stackedBarChart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    fetch('{% url "stacked-bar" %}')
+    .then(response => response.json())
+    .then(data => {
+        const countries = Object.keys(data);
+        const incidentTypes = [...new Set(
+            Object.values(data).flatMap(country => Object.keys(country))
+        )];
+        const colors = [
+            "#1d7af3", "#f3545d", "#fdaf4b", "#59d05d", "#716aca", "#ffa534"
+        ];
+        const datasets = incidentTypes.map((type, idx) => ({
+            label: type,
+            data: countries.map(country => data[country][type] || 0),
+            backgroundColor: colors[idx % colors.length],
+            stack: 'stack1'
+        }));
+
+        new Chart(document.getElementById('stackedBarChart'), {
+            type: 'bar',
+            data: {
+                labels: countries,
+                datasets: datasets
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: { position: 'top' },
+                    title: { display: true, text: 'Incident Types by Country' }
+                },
+                scales: {
+                    x: { stacked: true },
+                    y: { stacked: true }
+                }
+            }
+        });
+    })
+    .catch(error => {
+        console.error('Error fetching data:', error);
+    });
+});
+</script>
+{% endblock %}
+
