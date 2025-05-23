@@ -1,13 +1,88 @@
 from django.contrib import admin
 from django.urls import path
-
-from fire.views import HomePageView, ChartView
 from fire import views
+from fire.views import (
+    HomePageView,
+    ChartView,
+    PieCountbySeverity,
+    LineCountbyMonth,
+    MultilineIncidentTop3Country,
+    multipleBarBySeverity,
+    polarAreaBySeverity,
+    scatterLatLonIncidents,
+    heatmapByHourDay,
+    stackedBarIncidentTypeCountry,
+    donutResponseTimeDistribution,
+    IncidentListView,
+    IncidentCreateView,
+    IncidentUpdateView,
+    IncidentDeleteView,
+    LocationListView,
+    LocationCreateView,
+    LocationUpdateView,
+    LocationDeleteView,
+    FirestationListView,
+    FirestationCreateView,
+    FirestationUpdateView,
+    FirestationDeleteView,
+    FireTruckListView,
+    FireTruckCreateView,
+    FireTruckUpdateView,
+    FireTruckDeleteView,
+    FirefightersListView,
+    FirefightersCreateView,
+    FirefightersUpdateView,
+    FirefightersDeleteView,
+)   
+
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('stations', views.map_station, name='map-station'),
     path('', HomePageView.as_view(), name='home'),
+    path('stations', views.map_station, name='map-station'),
     path('dashboard_chart', ChartView.as_view(), name='dashboard-chart'),
-    path('map/incidents/', views.map_incidents, name='map-incidents'),
+    path('chart/', PieCountbySeverity, name='chart'),
+    path('lineChart/', LineCountbyMonth, name='chart'),
+    path('multilineChart/', MultilineIncidentTop3Country, name='chart'),
+    path('multiBarchart/', multipleBarBySeverity, name='chart'),
+    path('incident/', views.map_incident, name='map-incident'),
+    path('dashboard1/', views.dashboard1, name='dashboard1'),
+    path('polarAreaBySeverity/', polarAreaBySeverity, name='polarAreaBySeverity'),
+    path('scatterLatLonIncidents/', scatterLatLonIncidents, name='scatterLatLonIncidents'),
+    path('dashboard2/', views.dashboard2, name='dashboard2'),
+    path('heatmap/', heatmapByHourDay, name='heatmap'),
+    path('stacked-bar/', views.stackedBarIncidentTypeCountry, name='stacked-bar'),
+    path('response-times/', views.donutResponseTimeDistribution, name='response-times'),
+    path('dashboard3/', views.dashboard3, name='dashboard3'),
+    path('dashboard4/', views.dashboard4, name='dashboard4'),
+    path('dashboard5/', views.dashboard5, name='dashboard5'),
+
+    path('incidents/', IncidentListView.as_view(), name='incident-list'),
+    path('incident/create/', IncidentCreateView.as_view(), name='incident-add'),
+    path('incident/<int:pk>/update/', IncidentUpdateView.as_view(), name='incident-update'),
+    path('incident/<int:pk>/delete/', IncidentDeleteView.as_view(), name='incident-delete'),
+
+    path('locations/', LocationListView.as_view(), name='location-list'),
+    path('location/create/', LocationCreateView.as_view(), name='location-add'),
+    path('location/<int:pk>/update/', LocationUpdateView.as_view(), name='location-update'),
+    path('location_list/<pk>/delete/', LocationDeleteView.as_view(), name='location-delete'),
+
+    path('multiLineChart/', views.multi_line_chart, name='multi_line_chart'),
+    path('multiBarChart/', views.multi_bar_chart, name='multi_bar_chart'),
+
+    path('firestations/', FirestationListView.as_view(), name='firestation-list'),
+    path('firestation/create/', FirestationCreateView.as_view(), name='firestation-add'),
+    path('firestation/<int:pk>/update/', FirestationUpdateView.as_view(), name='firestation-update'),
+    path('firestation/<int:pk>/delete/', FirestationDeleteView.as_view(), name='firestation-delete'),
+
+    path('firetrucks/', FireTruckListView.as_view(), name='firetruck-list'),
+    path('firetruck/create/', FireTruckCreateView.as_view(), name='firetruck-add'),
+    path('firetruck/<int:pk>/update/', FireTruckUpdateView.as_view(), name='firetruck-update'),
+    path('firetruck/<int:pk>/delete/', FireTruckDeleteView.as_view(), name='firetruck-delete'),
+
+
+    path('firefighters/', FirefightersListView.as_view(), name='firefighters-list'),
+    path('firefighter/create/', FirefightersCreateView.as_view(), name='firefighter-add'),
+    path('firefighter/<int:pk>/update/', FirefightersUpdateView.as_view(), name='firefighter-update'),
+    path('firefighter/<int:pk>/delete/', FirefightersDeleteView.as_view(), name='firefighter-delete'),
 ]
