@@ -612,7 +612,7 @@ class FireTruckCreateView(CreateView):
     success_url = reverse_lazy('firetruck-list')
 
     def form_valid(self, form):
-        name = form.instance.name
+        name = form.instance.truck_number
         messages.success(self.request, f'Fire Truck "{name}" created successfully!')
         return super().form_valid(form)
     
@@ -628,7 +628,7 @@ class FireTruckUpdateView(UpdateView):
     success_url = reverse_lazy('firetruck-list')
 
     def form_valid(self, form):
-        name = form.instance.name
+        name = form.instance.truck_number
         messages.success(self.request, f'Fire Truck "{name}" updated successfully!')
         return super().form_valid(form)
     
@@ -649,7 +649,7 @@ class FireTruckDeleteView(DeleteView):
         return context
 
     def form_valid(self, form):
-        name = self.object.name
+        name = self.object.truck_number
         response = super().form_valid(form)
         messages.success(self.request, 
             f'Fire Truck "{name}" was successfully deleted.',
